@@ -1,0 +1,107 @@
+{% extends "index.html" %}
+
+{% block title %}
+    analysis
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+<div class="row justify-content-center align-items-center text-center">
+
+    <!-- Team 1 (Izquierda) -->
+    <div class="col-5">
+        <h5 style="color: red;">Equipo 1</h5>
+        <div class="row g-2">
+        {% for i in range(5) %}
+        <div class="col-12">
+            <div class="card text-start">
+            <div class="card-body">
+                <h5 class="card-title">Jugador {{ i + 1 }}</h5>
+                <p class="card-text">Campeón, Rol, Rango, etc.</p>
+            </div>
+            </div>
+            
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+
+    <!-- Centro VS -->
+    <div class="col-2">
+        <h1 class="fw-bold">VS</h1>
+    </div>
+
+    <!-- Team 2 (Derecha) -->
+    <div class="col-5">
+        <h5 style="color: blue;">Equipo 2</h5>
+        {% for i in range(5) %}
+        <div class="col-12">
+            <div class="card text-end">
+            <div class="card-body">
+                <h5 class="card-title">Jugador {{ i + 6 }}</h5>
+                <p class="card-text">Campeón, Rol, Rango, etc.</p>
+            </div>
+            </div>
+        </div>
+        {% endfor %}
+        </div>
+    </div>
+
+</div>
+</div>
+
+<!-- Gráfica Pie de Chart.js (versión pequeña) -->
+<div class="container mt-5 text-center">
+<div class="text-center">
+Probabilidad de victoria por equipo:
+{% if equipo1_prob < equipo2_prob %}
+<h5 style="color: red;">Equipo 1 (Rojo) es mas probable de que gane</h5>
+{% elif equipo1_prob > equipo2_prob %}
+<h5 style="color: blue;">Equipo 2 (Azul) es mas probable de que gane</h5>
+{% else %}
+Empate
+{% endif %}
+</div>   
+
+<canvas id="victoryChart" class="mx-auto d-block" style="max-width: 270px;"></canvas>
+</div>
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<!-- Script de la gráfica -->
+<script>
+const ctx = document.getElementById('victoryChart').getContext('2d');
+
+new Chart(ctx, {
+type: 'pie',
+data: {
+    labels: ['Equipo 1 (Azul)', 'Equipo 2 (Rojo)'],
+    datasets: [{
+    label: 'Probabilidad de Victoria',
+    data: [{{ equipo1_prob }}, {{ equipo2_prob }}],
+    backgroundColor: [
+        'rgba(54, 162, 235, 0.6)',
+        'rgba(255, 99, 132, 0.6)'
+    ],
+    borderColor: 'rgba(0, 0, 0, 0.3)',
+    borderWidth: 1
+    }]
+},
+options: {
+    responsive: false,  // Importante para respetar tamaño fijo
+    plugins: {
+    legend: {
+        position: 'bottom'
+    },
+    tooltip: {
+        callbacks: {
+        label: (ctx) => `${ctx.label}: ${ctx.parsed}%`
+        }
+    }
+    }
+}
+});
+</script>
+
+{% endblock %}
