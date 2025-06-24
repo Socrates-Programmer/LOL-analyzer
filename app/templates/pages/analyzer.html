@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="container mt-4">
 <div class="row justify-content-center align-items-center text-center">
 
     <!-- Team 1 (Izquierda) -->
@@ -51,9 +51,9 @@
 </div>
 
 <!-- Gráfica Pie de Chart.js (versión pequeña) -->
-<div class="container mt-5 text-center">
+<div class="container mt-4 text-center">
 <div class="text-center">
-Probabilidad de victoria por equipo:
+<h5 class="text-light">Probabilidad de victoria por equipo:</h5>
 {% if equipo1_prob < equipo2_prob %}
 <h5 style="color: red;">Equipo 1 (Rojo) es mas probable de que gane</h5>
 {% elif equipo1_prob > equipo2_prob %}
@@ -76,13 +76,13 @@ const ctx = document.getElementById('victoryChart').getContext('2d');
 new Chart(ctx, {
 type: 'pie',
 data: {
-    labels: ['Equipo 1 (Azul)', 'Equipo 2 (Rojo)'],
+    labels: [],
     datasets: [{
     label: 'Probabilidad de Victoria',
     data: [{{ equipo1_prob }}, {{ equipo2_prob }}],
     backgroundColor: [
-        'rgba(54, 162, 235, 0.6)',
-        'rgba(255, 99, 132, 0.6)'
+        'rgba(54, 162, 235)',
+        'rgba(255, 99, 132)'
     ],
     borderColor: 'rgba(0, 0, 0, 0.3)',
     borderWidth: 1
