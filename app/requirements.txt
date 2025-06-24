@@ -5,4 +5,8 @@ sqlalchemy
 flask-sqlalchemy
 gunicorn
 requests
+<<<<<<< HEAD
 pymongo
+=======
+pymongo
+>>>>>>> 075dfab (Se le agrego la base de datos a al modulo de Match-Analyzer)

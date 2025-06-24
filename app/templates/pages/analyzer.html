@@ -5,74 +5,108 @@
 {% endblock %}
 
 {% block content %}
-<div class="container mt-4">
+<div class="container mt-5">
 <div class="row justify-content-center align-items-center text-center">
 
-    <!-- Team 1 (Izquierda) -->
-    <div class="col-5">
-        <h5 style="color: red;">Equipo 1</h5>
-        <div class="row g-2">
-        {% for i in range(5) %}
-        <div class="col-12">
-            <div class="card text-start">
-            <div class="card-body">
-                <h5 class="card-title">Jugador {{ i + 1 }}</h5>
-                <p class="card-text">Campeón, Rol, Rango, etc.</p>
-            </div>
-            </div>
-            
-        </div>
+<!-- Equipo 1 -->
+<div class="col-md-5 col-12 mb-4">
+    <h4 class="text-danger mb-4 fw-bold">Equipo 1</h4>
+    {% for i in range(5) %}
+    <div class="mb-3 text-start">
+    <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">
+        Jugador {{ i + 1 }}
+    </label>
+    <select id="team1-player-{{ i }}" class="form-select player-select" data-team="1" data-index="{{ i }}">
+        <option value="" selected>-- Seleccionar jugador --</option>
+        {% for invocador in invocadores %}
+        <option value="{{ invocador._id }}">
+        {{ invocador.summoner_name }} ({{ invocador.tagline }})
+        </option>
         {% endfor %}
-        </div>
+    </select>
     </div>
+    {% endfor %}
+</div>
 
-    <!-- Centro VS -->
-    <div class="col-2">
-        <h1 class="fw-bold">VS</h1>
-    </div>
+<!-- VS Centro -->
 
-    <!-- Team 2 (Derecha) -->
-    <div class="col-5">
-        <h5 style="color: blue;">Equipo 2</h5>
-        {% for i in range(5) %}
-        <div class="col-12">
-            <div class="card text-end">
-            <div class="card-body">
-                <h5 class="card-title">Jugador {{ i + 6 }}</h5>
-                <p class="card-text">Campeón, Rol, Rango, etc.</p>
-            </div>
-            </div>
-        </div>
+<div class="col-md-2 col-12 d-flex flex-column align-items-center justify-content-center mb-4">
+    <button type="button" class="btn btn-primary mb-3">Comparar Equipos</button>
+    <h1 class="fw-bold text-light mb-0">VS</h1>
+        <button type="button" class="btn btn-primary mt-3">Sortear</button>
+
+</div>
+
+
+<!-- Equipo 2 -->
+<div class="col-md-5 col-12 mb-4">
+    <h4 class="text-primary mb-4 fw-bold">Equipo 2</h4>
+    {% for i in range(5) %}
+    <div class="mb-3 text-start">
+    <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">
+        Jugador {{ i + 6 }}
+    </label>
+    <select id="team2-player-{{ i }}" class="form-select player-select" data-team="2" data-index="{{ i }}">
+        <option value="" selected>-- Seleccionar jugador --</option>
+        {% for invocador in invocadores %}
+        <option value="{{ invocador._id }}">
+        {{ invocador.summoner_name }} ({{ invocador.tagline }})
+        </option>
         {% endfor %}
-        </div>
+    </select>
     </div>
+    {% endfor %}
+</div>
 
 </div>
 </div>
 
-<!-- Gráfica Pie de Chart.js (versión pequeña) -->
+<!-- Gráfica de probabilidades -->
 <div class="container mt-4 text-center">
-<div class="text-center">
 <h5 class="text-light">Probabilidad de victoria por equipo:</h5>
-{% if equipo1_prob < equipo2_prob %}
-<h5 style="color: red;">Equipo 1 (Rojo) es mas probable de que gane</h5>
-{% elif equipo1_prob > equipo2_prob %}
-<h5 style="color: blue;">Equipo 2 (Azul) es mas probable de que gane</h5>
+{% if equipo1_prob > equipo2_prob %}
+<h6 style="color: red;">Equipo 1 (Rojo) es más probable que gane</h6>
+{% elif equipo2_prob > equipo1_prob %}
+<h6 style="color: blue;">Equipo 2 (Azul) es más probable que gane</h6>
 {% else %}
-Empate
+<h6>Empate</h6>
 {% endif %}
-</div>   
-
-<canvas id="victoryChart" class="mx-auto d-block" style="max-width: 270px;"></canvas>
+<canvas id="victoryChart" style="max-width: 270px; margin: auto;"></canvas>
 </div>
+
+<!-- BLOCK API -->>
+{% block API %}
+
+{% endblock %}
 
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- Script de la gráfica -->
+<!-- JS para dropdown y gráfica -->
 <script>
-const ctx = document.getElementById('victoryChart').getContext('2d');
+// Evitar jugadores repetidos en selects
+function actualizarOpciones() {
+const selects = document.querySelectorAll('.player-select');
+const seleccionados = Array.from(selects).map(s => s.value).filter(v => v !== "");
 
+selects.forEach(select => {
+    const actual = select.value;
+    Array.from(select.options).forEach(option => {
+    if(option.value === "") {
+        option.disabled = false;
+        return;
+    }
+    option.disabled = (option.value !== actual && seleccionados.includes(option.value));
+    });
+});
+}
+document.querySelectorAll('.player-select').forEach(select => {
+select.addEventListener('change', actualizarOpciones);
+});
+actualizarOpciones();
+
+// Configurar gráfica
+const ctx = document.getElementById('victoryChart').getContext('2d');
 new Chart(ctx, {
 type: 'pie',
 data: {
@@ -81,19 +115,17 @@ data: {
     label: 'Probabilidad de Victoria',
     data: [{{ equipo1_prob }}, {{ equipo2_prob }}],
     backgroundColor: [
-        'rgba(54, 162, 235)',
-        'rgba(255, 99, 132)'
+        'rgba(255, 99, 132, 0.7)', // rojo
+        'rgba(54, 162, 235, 0.7)'  // azul
     ],
-    borderColor: 'rgba(0, 0, 0, 0.3)',
+    borderColor: 'rgba(0,0,0,0.2)',
     borderWidth: 1
     }]
 },
 options: {
-    responsive: false,  // Importante para respetar tamaño fijo
+    responsive: false,
     plugins: {
-    legend: {
-        position: 'bottom'
-    },
+    legend: { position: 'bottom' },
     tooltip: {
         callbacks: {
         label: (ctx) => `${ctx.label}: ${ctx.parsed}%`
@@ -103,5 +135,4 @@ options: {
 }
 });
 </script>
-
 {% endblock %}

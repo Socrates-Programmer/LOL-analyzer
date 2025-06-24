@@ -11,8 +11,23 @@ def home():
 
 @bp.route('/Analyzer')
 def match_analyzer():
+    db = current_app.db
+    invocadores_raw = list(db.invocadores.find())
+    
+    # Convertir _id a string para evitar problemas en plantilla
+    invocadores = []
+    for i in invocadores_raw:
+        i['_id'] = str(i['_id'])
+        invocadores.append(i)
+    
+    print("Jugadores desde DB:", invocadores)
+    return render_template('pages/analyzer.html',
+                        invocadores=invocadores,
+                        equipo1_prob=55,
+                        equipo2_prob=45)
 
-    return render_template('pages/analyzer.html', equipo1_prob=55, equipo2_prob=45)
+
+
 
 @bp.route('/summoner', methods=["GET", "POST"])
 def summoner():
