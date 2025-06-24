@@ -1,0 +1,19 @@
+{% extends "index.html" %}
+
+{% block title %}
+    All - Summoners
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="list-group">
+        {% for i in invocadores %}
+        <a href="/summoner/{{ i.summoner_name }}/{{ i.tagline }}" class="list-group-item list-group-item-action">
+            {{ i.summoner_name }} - {{ i.tagline }}
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock %}
