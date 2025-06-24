@@ -5,5 +5,4 @@ sqlalchemy
 flask-sqlalchemy
 gunicorn
 requests
-os
 pymongo
