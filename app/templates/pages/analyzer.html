@@ -13,17 +13,27 @@
     <h4 class="text-danger mb-4 fw-bold">Equipo 1</h4>
     {% for i in range(5) %}
     <div class="mb-3 text-start">
-    <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">
-        Jugador {{ i + 1 }}
-    </label>
-    <select id="team1-player-{{ i }}" class="form-select player-select" data-team="1" data-index="{{ i }}">
-        <option value="" selected>-- Seleccionar jugador --</option>
-        {% for invocador in invocadores %}
-        <option value="{{ invocador._id }}">
-        {{ invocador.summoner_name }} ({{ invocador.tagline }})
-        </option>
-        {% endfor %}
-    </select>
+        <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">
+            Jugador {{ i + 1 }}
+        </label>
+        <select  id="team1-player-{{ i }}" class="form-select player-select mb-1" data-team="1" data-index="{{ i }}">
+            <option value="" selected>-- Seleccionar jugador --</option>
+            {% for invocador in invocadores %}
+            <option value="{{ invocador.summoner_name }}">
+                {{ invocador.summoner_name }} ({{ invocador.tagline }})
+            </option>
+            {% endfor %}
+        </select>
+<select 
+id="team1-role-{{ i }}" class="form-select form-select-sm role-select" data-team="1" data-index="{{ i }}">
+    <option value="">-- Rol --</option>
+    <option value="TOP">Top</option>
+    <option value="JUNGLE">Jungla</option>
+    <option value="MID">Mid</option>
+    <option value="ADC">ADC</option>
+    <option value="SUPPORT">Support</option>
+</select>
+
     </div>
     {% endfor %}
 </div>
@@ -31,29 +41,37 @@
 <!-- VS Centro -->
 
 <div class="col-md-2 col-12 d-flex flex-column align-items-center justify-content-center mb-4">
-    <button type="button" class="btn btn-primary mb-3">Comparar Equipos</button>
+    <button type="button" class="btn btn-primary mb-3" onclick="compararEquipos()">Comparar Equipos</button>
     <h1 class="fw-bold text-light mb-0">VS</h1>
-        <button type="button" class="btn btn-primary mt-3">Sortear</button>
-
+    <button type="button" class="btn btn-primary mt-3" id="btnSortear">Sortear</button>
 </div>
-
 
 <!-- Equipo 2 -->
 <div class="col-md-5 col-12 mb-4">
     <h4 class="text-primary mb-4 fw-bold">Equipo 2</h4>
     {% for i in range(5) %}
     <div class="mb-3 text-start">
-    <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">
-        Jugador {{ i + 6 }}
-    </label>
-    <select id="team2-player-{{ i }}" class="form-select player-select" data-team="2" data-index="{{ i }}">
-        <option value="" selected>-- Seleccionar jugador --</option>
-        {% for invocador in invocadores %}
-        <option value="{{ invocador._id }}">
-        {{ invocador.summoner_name }} ({{ invocador.tagline }})
-        </option>
-        {% endfor %}
-    </select>
+        <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">
+            Jugador {{ i + 6 }}
+        </label>
+        <select id="team2-player-{{ i }}" class="form-select player-select mb-1" data-team="2" data-index="{{ i }}">
+            <option value="" selected>-- Seleccionar jugador --</option>
+            {% for invocador in invocadores %}
+            <option value="{{ invocador.summoner_name }}">
+                {{ invocador.summoner_name }} ({{ invocador.tagline }})
+            </option>
+            {% endfor %}
+        </select>
+<select id="team2-role-{{ i }}" class="form-select form-select-sm role-select" data-team="2" data-index="{{ i }}">
+
+    <option value="">-- Rol --</option>
+    <option value="TOP">Top</option>
+    <option value="JUNGLE">Jungla</option>
+    <option value="MID">Mid</option>
+    <option value="ADC">ADC</option>
+    <option value="SUPPORT">Support</option>
+</select>
+
     </div>
     {% endfor %}
 </div>
@@ -74,9 +92,8 @@
 <canvas id="victoryChart" style="max-width: 270px; margin: auto;"></canvas>
 </div>
 
-<!-- BLOCK API -->>
+<!-- BLOCK API -->
 {% block API %}
-
 {% endblock %}
 
 <!-- Chart.js CDN -->
@@ -86,53 +103,222 @@
 <script>
 // Evitar jugadores repetidos en selects
 function actualizarOpciones() {
-const selects = document.querySelectorAll('.player-select');
-const seleccionados = Array.from(selects).map(s => s.value).filter(v => v !== "");
+    const selects = document.querySelectorAll('.player-select');
+    const seleccionados = Array.from(selects).map(s => s.value).filter(v => v !== "");
 
-selects.forEach(select => {
-    const actual = select.value;
-    Array.from(select.options).forEach(option => {
-    if(option.value === "") {
-        option.disabled = false;
-        return;
-    }
-    option.disabled = (option.value !== actual && seleccionados.includes(option.value));
+    selects.forEach(select => {
+        const actual = select.value;
+        Array.from(select.options).forEach(option => {
+            if (option.value === "") {
+                option.disabled = false;
+                return;
+            }
+            option.disabled = (option.value !== actual && seleccionados.includes(option.value));
+        });
     });
-});
+
+    // Evitar roles repetidos por equipo
+    const roleSelects = document.querySelectorAll('.role-select');
+    const equipos = {
+        "1": [],
+        "2": []
+    };
+
+    // Agrupar roles seleccionados por equipo
+    roleSelects.forEach(select => {
+        const team = select.dataset.team;
+        const role = select.value;
+        if (role !== "") {
+            equipos[team].push(role);
+        }
+    });
+
+    // Deshabilitar roles ya seleccionados por equipo (excepto el propio)
+    roleSelects.forEach(select => {
+        const team = select.dataset.team;
+        const actual = select.value;
+
+        Array.from(select.options).forEach(option => {
+            if (option.value === "") {
+                option.disabled = false;
+                return;
+            }
+
+            // Deshabilitar si ya fue seleccionado por otro en el mismo equipo
+            option.disabled = (
+                option.value !== actual && equipos[team].includes(option.value)
+            );
+        });
+    });
 }
-document.querySelectorAll('.player-select').forEach(select => {
-select.addEventListener('change', actualizarOpciones);
+
+// Listeners
+document.querySelectorAll('.player-select, .role-select').forEach(select => {
+    select.addEventListener('change', actualizarOpciones);
 });
+
+// Inicialización
 actualizarOpciones();
 
-// Configurar gráfica
-const ctx = document.getElementById('victoryChart').getContext('2d');
-new Chart(ctx, {
-type: 'pie',
-data: {
-    labels: [],
-    datasets: [{
-    label: 'Probabilidad de Victoria',
-    data: [{{ equipo1_prob }}, {{ equipo2_prob }}],
-    backgroundColor: [
-        'rgba(255, 99, 132, 0.7)', // rojo
-        'rgba(54, 162, 235, 0.7)'  // azul
-    ],
-    borderColor: 'rgba(0,0,0,0.2)',
-    borderWidth: 1
-    }]
-},
-options: {
-    responsive: false,
-    plugins: {
-    legend: { position: 'bottom' },
-    tooltip: {
-        callbacks: {
-        label: (ctx) => `${ctx.label}: ${ctx.parsed}%`
+
+// Función para comparar equipos y llamar al backend
+function compararEquipos() {
+    const team1 = [];
+    const team2 = [];
+
+    for (let i = 0; i < 5; i++) {
+        const t1 = document.getElementById(`team1-player-${i}`).value;
+        const t2 = document.getElementById(`team2-player-${i}`).value;
+        if (t1) team1.push(t1);
+        if (t2) team2.push(t2);
+    }
+
+    if (team1.length < 5 || team2.length < 5) {
+        alert("Por favor, selecciona 5 jugadores en ambos equipos");
+        return;
+    }
+
+    // Mostrar mensaje de carga
+    const mensaje = document.querySelector('.container.mt-4.text-center h6');
+    if (mensaje) {
+        mensaje.textContent = "Cargando resultados...";
+        mensaje.style.color = "white";
+    }
+
+    fetch('/comparar', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ team1, team2 })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.error) {
+            // Si viene lista de jugadores que fallaron, la mostramos
+            if (data.jugadores && data.jugadores.length > 0) {
+                alert(`${data.error}\n- ${data.jugadores.join('\n- ')}`);
+            } else {
+                alert(data.error);
+            }
+            return;
+        }
+        actualizarGrafica(data.equipo1_prob, data.equipo2_prob);
+    })
+    .catch(err => {
+        alert("Error al obtener probabilidades. Verifica conexión o nombres de invocadores.");
+        console.error(err);
+    });
+}
+
+
+// Gráfica
+let victoryChart;
+
+function actualizarGrafica(prob1, prob2) {
+    const ctx = document.getElementById('victoryChart').getContext('2d');
+
+    if (victoryChart) victoryChart.destroy();
+
+    victoryChart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Equipo 1', 'Equipo 2'],
+            datasets: [{
+                label: 'Probabilidad de Victoria',
+                data: [prob1, prob2],
+                backgroundColor: [
+                    'rgba(255, 99, 132)', // rojo
+                    'rgba(54, 162, 235)'  // azul
+                ],
+                borderColor: 'rgba(0,0,0,0.2)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { position: 'bottom' },
+                tooltip: {
+                    callbacks: {
+                        label: (ctx) => `${ctx.label}: ${ctx.parsed}%`
+                    }
+                }
+            }
+        }
+    });
+
+    // Actualizar mensaje
+    const mensaje = document.querySelector('.container.mt-4.text-center h6');
+    if (mensaje) {
+        if (prob1 > prob2) {
+            mensaje.style.color = 'red';
+            mensaje.textContent = 'Equipo 1 (Rojo) es más probable que gane';
+        } else if (prob2 > prob1) {
+            mensaje.style.color = 'blue';
+            mensaje.textContent = 'Equipo 2 (Azul) es más probable que gane';
+        } else {
+            mensaje.style.color = 'white';
+            mensaje.textContent = 'Empate';
         }
     }
-    }
 }
+
+document.addEventListener("DOMContentLoaded", () => {
+
+function sortearEquipos() {
+    const playerSelects = document.querySelectorAll('.player-select');
+    if (playerSelects.length === 0) {
+    console.warn("No se encontraron selectores de jugadores");
+    return;
+    }
+    
+    const allPlayers = Array.from(playerSelects[0].options)
+        .filter(opt => opt.value !== "")
+        .map(opt => opt.value);
+
+    // Mezclar jugadores
+    for (let i = allPlayers.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [allPlayers[i], allPlayers[j]] = [allPlayers[j], allPlayers[i]];
+    }
+
+    const selectedPlayers = allPlayers.slice(0, 10);
+
+    // Asignar jugadores a equipos
+    for (let i = 0; i < 5; i++) {
+        const playerSelect1 = document.getElementById(`team1-player-${i}`);
+        const playerSelect2 = document.getElementById(`team2-player-${i}`);
+        if (playerSelect1) playerSelect1.value = selectedPlayers[i];
+        if (playerSelect2) playerSelect2.value = selectedPlayers[i + 5];
+    }
+
+    // Roles únicos por equipo
+    const roles = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
+
+    // Mezclar y asignar roles para cada equipo
+    const shuffledRoles1 = [...roles].sort(() => Math.random() - 0.5);
+    const shuffledRoles2 = [...roles].sort(() => Math.random() - 0.5);
+
+    for (let i = 0; i < 5; i++) {
+        const roleSelect1 = document.getElementById(`team1-role-${i}`);
+        const roleSelect2 = document.getElementById(`team2-role-${i}`);
+        if (roleSelect1) roleSelect1.value = shuffledRoles1[i];
+        if (roleSelect2) roleSelect2.value = shuffledRoles2[i];
+    }
+
+    actualizarOpciones();
+}
+
+const btnSortear = document.getElementById('btnSortear');
+if (btnSortear) {
+btnSortear.addEventListener('click', () => {
+    console.log("Botón sortear presionado");
+    sortearEquipos();
 });
+} else {
+console.warn("No se encontró el botón btnSortear");
+}
+
+});
+
 </script>
 {% endblock %}
