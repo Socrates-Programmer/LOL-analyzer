@@ -10,7 +10,7 @@
 
 <!-- Columna izquierda: Equipo 1 -->
 <div class="col-lg-4 col-md-6 mb-4">
-    <h4 class="text-danger fw-bold text-center">Equipo 1</h4>
+    <h4 class="text-primary fw-bold text-center">Equipo 1</h4>
     {% for i in range(5) %}
     <div class="mb-3">
     <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">Jugador {{ i + 1 }}</label>
@@ -43,7 +43,7 @@
 
 <!-- Columna derecha: Equipo 2 -->
 <div class="col-lg-4 col-md-6 mb-4">
-    <h4 class="text-primary fw-bold text-center">Equipo 2</h4>
+    <h4 class="text-danger fw-bold text-center">Equipo 2</h4>
     {% for i in range(5) %}
     <div class="mb-3">
     <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">Jugador {{ i + 6 }}</label>
@@ -278,11 +278,11 @@ function mostrarResultado(prob1, prob2) {
     let color = "white";
 
     if (prob1 > prob2) {
-        texto = "Equipo 1 (Rojo) es más probable que gane";
-        color = "red";
-    } else if (prob2 > prob1) {
-        texto = "Equipo 2 (Azul) es más probable que gane";
+        texto = "Equipo 1 (blue) es más probable que gane";
         color = "blue";
+    } else if (prob1 < prob2) {
+        texto = "Equipo 2 (red) es más probable que gane";
+        color = "red";
     }
 
     mensaje.textContent = texto;
@@ -301,7 +301,7 @@ function mostrarResultado(prob1, prob2) {
         data: {
             labels: ['Equipo 1', 'Equipo 2'],
             datasets: [{
-                data: [prob1, prob2],
+                data: [prob2, prob1],
                 backgroundColor: ['#dc3545', '#0d6efd']
             }]
         },
