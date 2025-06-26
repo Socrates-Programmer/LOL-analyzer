@@ -16,10 +16,11 @@ rank_values = {
     'SILVER': 3,
     'GOLD': 4,
     'PLATINUM': 5,
-    'DIAMOND': 6,
-    'MASTER': 7,
-    'GRANDMASTER': 8,
-    'CHALLENGER': 9
+    'EMERALD': 6,
+    'DIAMOND': 7,
+    'MASTER': 8,
+    'GRANDMASTER': 9,
+    'CHALLENGER': 10
 }
 
 role_impact = {

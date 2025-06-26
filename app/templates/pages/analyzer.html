@@ -6,77 +6,82 @@
 
 {% block content %}
 <div class="container mt-5">
-<div class="row justify-content-center align-items-center text-center">
-    <form action="" method="post" class="row justify-content-center">
+<div class="row justify-content-center align-items-start">
 
-        <!-- Equipo 1 -->
-        <div class="col-md-5 col-12 mb-4">
-            <h4 class="text-danger mb-4 fw-bold">Equipo 1</h4>
-            {% for i in range(5) %}
-            <div class="mb-3 text-start">
-                <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">
-                    Jugador {{ i + 1 }}
-                </label>
-                <select  id="team1-player-{{ i }}" class="form-select player-select mb-1" data-team="1" data-index="{{ i }}">
-                    <option value="" selected>-- Seleccionar jugador --</option>
-                    {% for invocador in invocadores %}
-                    <option value="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
-                        {{ invocador.summoner_name }} ({{ invocador.tagline }})
-                    </option>
-                    {% endfor %}
-                </select>
-        <select 
-        id="team1-role-{{ i }}" class="form-select form-select-sm role-select" data-team="1" data-index="{{ i }}">
-            <option value="">-- Rol --</option>
-            <option value="TOP">Top</option>
-            <option value="JUNGLE">Jungla</option>
-            <option value="MID">Mid</option>
-            <option value="ADC">ADC</option>
-            <option value="SUPPORT">Support</option>
-        </select>
+<!-- Columna izquierda: Equipo 1 -->
+<div class="col-lg-4 col-md-6 mb-4">
+    <h4 class="text-danger fw-bold text-center">Equipo 1</h4>
+    {% for i in range(5) %}
+    <div class="mb-3">
+    <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">Jugador {{ i + 1 }}</label>
+    <select id="team1-player-{{ i }}" class="form-select player-select mb-1" data-team="1" data-index="{{ i }}">
+        <option value="" selected>-- Seleccionar jugador --</option>
+        {% for invocador in invocadores %}
+        <option value="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
+        {{ invocador.summoner_name }} ({{ invocador.tagline }})
+        </option>
+        {% endfor %}
+    </select>
+    <select id="team1-role-{{ i }}" class="form-select form-select-sm role-select" data-team="1" data-index="{{ i }}">
+        <option value="">-- Rol --</option>
+        <option value="TOP">Top</option>
+        <option value="JUNGLE">Jungla</option>
+        <option value="MID">Mid</option>
+        <option value="ADC">ADC</option>
+        <option value="SUPPORT">Support</option>
+    </select>
+    </div>
+    {% endfor %}
+</div>
 
-            </div>
-            {% endfor %}
-        </div>
+<!-- Columna central: Botones -->
+<div class="col-lg-2 col-md-12 mb-4 d-flex flex-column align-items-center justify-content-center">
+    <button type="button" class="btn btn-primary mb-3 w-100" id="comparar-btn">Comparar Equipos</button>
+    <h1 class="fw-bold text-light my-2">VS</h1>
+    <button type="button" class="btn btn-primary mt-3 w-100" id="btnSortear">Sortear</button>
+</div>
 
-        <!-- VS Centro -->
+<!-- Columna derecha: Equipo 2 -->
+<div class="col-lg-4 col-md-6 mb-4">
+    <h4 class="text-primary fw-bold text-center">Equipo 2</h4>
+    {% for i in range(5) %}
+    <div class="mb-3">
+    <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">Jugador {{ i + 6 }}</label>
+    <select id="team2-player-{{ i }}" class="form-select player-select mb-1" data-team="2" data-index="{{ i }}">
+        <option value="" selected>-- Seleccionar jugador --</option>
+        {% for invocador in invocadores %}
+        <option value="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
+        {{ invocador.summoner_name }} ({{ invocador.tagline }})
+        </option>
+        {% endfor %}
+    </select>
+    <select id="team2-role-{{ i }}" class="form-select form-select-sm role-select" data-team="2" data-index="{{ i }}">
+        <option value="">-- Rol --</option>
+        <option value="TOP">Top</option>
+        <option value="JUNGLE">Jungla</option>
+        <option value="MID">Mid</option>
+        <option value="ADC">ADC</option>
+        <option value="SUPPORT">Support</option>
+    </select>
+    </div>
+    {% endfor %}
+</div>
 
-        <div class="col-md-2 col-12 d-flex flex-column align-items-center justify-content-center mb-4">
-            <button type="button" class="btn btn-primary mb-3" id="comparar-btn">Comparar Equipos</button>
-            <h1 class="fw-bold text-light mb-0">VS</h1>
-            <button type="button" class="btn btn-primary mt-3" id="btnSortear">Sortear</button>
-        </div>
+<!-- Lista de jugadores con checkbox -->
+<div class="col-lg-2 col-md-12 mt-2">
+    <h5 class="text-light text-center mb-3">Jugadores disponibles</h5>
+    <div class="bg-dark p-2 rounded" style="max-height: 500px; overflow-y: auto;">
+    {% for invocador in invocadores %}
+    <div class="form-check text-light">
+        <input class="form-check-input player-availability" type="checkbox" id="chk-{{ loop.index0 }}" checked data-player="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
+        <label class="form-check-label" for="chk-{{ loop.index0 }}">
+        {{ invocador.summoner_name }} <small>({{ invocador.tagline }})</small>
+        </label>
+    </div>
+    {% endfor %}
+    </div>
+</div>
 
-        <!-- Equipo 2 -->
-        <div class="col-md-5 col-12 mb-4">
-            <h4 class="text-primary mb-4 fw-bold">Equipo 2</h4>
-            {% for i in range(5) %}
-            <div class="mb-3 text-start">
-                <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">
-                    Jugador {{ i + 6 }}
-                </label>
-                <select id="team2-player-{{ i }}" class="form-select player-select mb-1" data-team="2" data-index="{{ i }}">
-                    <option value="" selected>-- Seleccionar jugador --</option>
-                    {% for invocador in invocadores %}
-                    <option value="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
-                        {{ invocador.summoner_name }} ({{ invocador.tagline }})
-                    </option>
-                    {% endfor %}
-                </select>
-        <select id="team2-role-{{ i }}" class="form-select form-select-sm role-select" data-team="2" data-index="{{ i }}">
-
-            <option value="">-- Rol --</option>
-            <option value="TOP">Top</option>
-            <option value="JUNGLE">Jungla</option>
-            <option value="MID">Mid</option>
-            <option value="ADC">ADC</option>
-            <option value="SUPPORT">Support</option>
-        </select>
-
-            </div>
-            {% endfor %}
-        </div>
-    </form>
 </div>
 </div>
 
@@ -87,16 +92,20 @@
     <canvas id="victoryChart" style="max-width: 270px; margin: auto;"></canvas>
 </div>
 
-
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<!-- JS para dropdown y gráfica -->
+<!-- JS para dropdown, gráfica y checkbox -->
 <script>
-// Evitar jugadores repetidos en selects
 function actualizarOpciones() {
     const selects = document.querySelectorAll('.player-select');
     const seleccionados = Array.from(selects).map(s => s.value).filter(v => v !== "");
+
+    // Obtener jugadores deshabilitados por checkbox (no disponibles)
+    const checkboxes = document.querySelectorAll('.player-availability');
+    const noDisponibles = Array.from(checkboxes)
+        .filter(chk => !chk.checked)
+        .map(chk => chk.dataset.player);
 
     selects.forEach(select => {
         const actual = select.value;
@@ -105,7 +114,10 @@ function actualizarOpciones() {
                 option.disabled = false;
                 return;
             }
-            option.disabled = (option.value !== actual && seleccionados.includes(option.value));
+            // Deshabilitar si:
+            // - La opción ya fue seleccionada en otro select (excepto este)
+            // - O el jugador está deshabilitado en checkbox
+            option.disabled = (option.value !== actual && (seleccionados.includes(option.value) || noDisponibles.includes(option.value)));
         });
     });
 
@@ -116,7 +128,6 @@ function actualizarOpciones() {
         "2": []
     };
 
-    // Agrupar roles seleccionados por equipo
     roleSelects.forEach(select => {
         const team = select.dataset.team;
         const role = select.value;
@@ -125,7 +136,6 @@ function actualizarOpciones() {
         }
     });
 
-    // Deshabilitar roles ya seleccionados por equipo (excepto el propio)
     roleSelects.forEach(select => {
         const team = select.dataset.team;
         const actual = select.value;
@@ -135,8 +145,6 @@ function actualizarOpciones() {
                 option.disabled = false;
                 return;
             }
-
-            // Deshabilitar si ya fue seleccionado por otro en el mismo equipo
             option.disabled = (
                 option.value !== actual && equipos[team].includes(option.value)
             );
@@ -144,75 +152,73 @@ function actualizarOpciones() {
     });
 }
 
-// Listeners
+// Listeners para selects y checkboxes
 document.querySelectorAll('.player-select, .role-select').forEach(select => {
     select.addEventListener('change', actualizarOpciones);
+});
+document.querySelectorAll('.player-availability').forEach(chk => {
+    chk.addEventListener('change', actualizarOpciones);
 });
 
 // Inicialización
 actualizarOpciones();
 
-
-
-
 document.addEventListener("DOMContentLoaded", () => {
+    function sortearEquipos() {
+        const playerSelects = document.querySelectorAll('.player-select');
+        if (playerSelects.length === 0) {
+            console.warn("No se encontraron selectores de jugadores");
+            return;
+        }
 
-function sortearEquipos() {
-    const playerSelects = document.querySelectorAll('.player-select');
-    if (playerSelects.length === 0) {
-    console.warn("No se encontraron selectores de jugadores");
-    return;
+        // Solo considerar jugadores disponibles
+        const checkboxes = document.querySelectorAll('.player-availability');
+        const disponibles = Array.from(checkboxes)
+            .filter(chk => chk.checked)
+            .map(chk => chk.dataset.player);
+
+        // Mezclar jugadores disponibles
+        for (let i = disponibles.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [disponibles[i], disponibles[j]] = [disponibles[j], disponibles[i]];
+        }
+
+        const selectedPlayers = disponibles.slice(0, 10);
+
+        for (let i = 0; i < 5; i++) {
+            const playerSelect1 = document.getElementById(`team1-player-${i}`);
+            const playerSelect2 = document.getElementById(`team2-player-${i}`);
+            if (playerSelect1) playerSelect1.value = selectedPlayers[i] || "";
+            if (playerSelect2) playerSelect2.value = selectedPlayers[i + 5] || "";
+        }
+
+        // Roles únicos por equipo
+        const roles = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
+        const shuffledRoles1 = [...roles].sort(() => Math.random() - 0.5);
+        const shuffledRoles2 = [...roles].sort(() => Math.random() - 0.5);
+
+        for (let i = 0; i < 5; i++) {
+            const roleSelect1 = document.getElementById(`team1-role-${i}`);
+            const roleSelect2 = document.getElementById(`team2-role-${i}`);
+            if (roleSelect1) roleSelect1.value = shuffledRoles1[i];
+            if (roleSelect2) roleSelect2.value = shuffledRoles2[i];
+        }
+
+        actualizarOpciones();
     }
-    
-    const allPlayers = Array.from(playerSelects[0].options)
-        .filter(opt => opt.value !== "")
-        .map(opt => opt.value);
 
-    // Mezclar jugadores
-    for (let i = allPlayers.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [allPlayers[i], allPlayers[j]] = [allPlayers[j], allPlayers[i]];
+    const btnSortear = document.getElementById('btnSortear');
+    if (btnSortear) {
+        btnSortear.addEventListener('click', () => {
+            console.log("Botón sortear presionado");
+            sortearEquipos();
+        });
+    } else {
+        console.warn("No se encontró el botón btnSortear");
     }
-
-    const selectedPlayers = allPlayers.slice(0, 10);
-
-    // Asignar jugadores a equipos
-    for (let i = 0; i < 5; i++) {
-        const playerSelect1 = document.getElementById(`team1-player-${i}`);
-        const playerSelect2 = document.getElementById(`team2-player-${i}`);
-        if (playerSelect1) playerSelect1.value = selectedPlayers[i];
-        if (playerSelect2) playerSelect2.value = selectedPlayers[i + 5];
-    }
-
-    // Roles únicos por equipo
-    const roles = ["TOP", "JUNGLE", "MID", "ADC", "SUPPORT"];
-
-    // Mezclar y asignar roles para cada equipo
-    const shuffledRoles1 = [...roles].sort(() => Math.random() - 0.5);
-    const shuffledRoles2 = [...roles].sort(() => Math.random() - 0.5);
-
-    for (let i = 0; i < 5; i++) {
-        const roleSelect1 = document.getElementById(`team1-role-${i}`);
-        const roleSelect2 = document.getElementById(`team2-role-${i}`);
-        if (roleSelect1) roleSelect1.value = shuffledRoles1[i];
-        if (roleSelect2) roleSelect2.value = shuffledRoles2[i];
-    }
-
-    actualizarOpciones();
-}
-
-const btnSortear = document.getElementById('btnSortear');
-if (btnSortear) {
-btnSortear.addEventListener('click', () => {
-    console.log("Botón sortear presionado");
-    sortearEquipos();
-});
-} else {
-console.warn("No se encontró el botón btnSortear");
-}
-
 });
 
+// Manejo del botón comparar (sin cambios significativos)
 document.getElementById('comparar-btn').addEventListener('click', async function () {
     const team1 = [];
     const team2 = [];
@@ -252,7 +258,6 @@ document.getElementById('comparar-btn').addEventListener('click', async function
         const data = await response.json();
 
         if (response.ok) {
-            // Mostrar gráfico con las probabilidades recibidas
             mostrarResultado(data.equipo1_prob, data.equipo2_prob);
         } else if (data.error && data.jugadores) {
             alert(`${data.error}\n\nFaltan KDA para:\n- ${data.jugadores.join("\n- ")}`);
@@ -287,7 +292,6 @@ function mostrarResultado(prob1, prob2) {
 
     const ctx = document.getElementById("victoryChart").getContext("2d");
 
-    // Destruir gráfico anterior si existe
     if (window.victoryChartInstance) {
         window.victoryChartInstance.destroy();
     }
@@ -295,7 +299,7 @@ function mostrarResultado(prob1, prob2) {
     window.victoryChartInstance = new Chart(ctx, {
         type: 'pie',
         data: {
-            labels: [],
+            labels: ['Equipo 1', 'Equipo 2'],
             datasets: [{
                 data: [prob1, prob2],
                 backgroundColor: ['#dc3545', '#0d6efd']
@@ -309,7 +313,5 @@ function mostrarResultado(prob1, prob2) {
         }
     });
 }
-
-
 </script>
 {% endblock %}
