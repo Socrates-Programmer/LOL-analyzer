@@ -7,94 +7,86 @@
 {% block content %}
 <div class="container mt-5">
 <div class="row justify-content-center align-items-center text-center">
+    <form action="" method="post" class="row justify-content-center">
 
-<!-- Equipo 1 -->
-<div class="col-md-5 col-12 mb-4">
-    <h4 class="text-danger mb-4 fw-bold">Equipo 1</h4>
-    {% for i in range(5) %}
-    <div class="mb-3 text-start">
-        <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">
-            Jugador {{ i + 1 }}
-        </label>
-        <select  id="team1-player-{{ i }}" class="form-select player-select mb-1" data-team="1" data-index="{{ i }}">
-            <option value="" selected>-- Seleccionar jugador --</option>
-            {% for invocador in invocadores %}
-            <option value="{{ invocador.summoner_name }}">
-                {{ invocador.summoner_name }} ({{ invocador.tagline }})
-            </option>
-            {% endfor %}
+        <!-- Equipo 1 -->
+        <div class="col-md-5 col-12 mb-4">
+            <h4 class="text-danger mb-4 fw-bold">Equipo 1</h4>
+            {% for i in range(5) %}
+            <div class="mb-3 text-start">
+                <label for="team1-player-{{ i }}" class="form-label text-light fw-semibold">
+                    Jugador {{ i + 1 }}
+                </label>
+                <select  id="team1-player-{{ i }}" class="form-select player-select mb-1" data-team="1" data-index="{{ i }}">
+                    <option value="" selected>-- Seleccionar jugador --</option>
+                    {% for invocador in invocadores %}
+                    <option value="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
+                        {{ invocador.summoner_name }} ({{ invocador.tagline }})
+                    </option>
+                    {% endfor %}
+                </select>
+        <select 
+        id="team1-role-{{ i }}" class="form-select form-select-sm role-select" data-team="1" data-index="{{ i }}">
+            <option value="">-- Rol --</option>
+            <option value="TOP">Top</option>
+            <option value="JUNGLE">Jungla</option>
+            <option value="MID">Mid</option>
+            <option value="ADC">ADC</option>
+            <option value="SUPPORT">Support</option>
         </select>
-<select 
-id="team1-role-{{ i }}" class="form-select form-select-sm role-select" data-team="1" data-index="{{ i }}">
-    <option value="">-- Rol --</option>
-    <option value="TOP">Top</option>
-    <option value="JUNGLE">Jungla</option>
-    <option value="MID">Mid</option>
-    <option value="ADC">ADC</option>
-    <option value="SUPPORT">Support</option>
-</select>
 
-    </div>
-    {% endfor %}
-</div>
-
-<!-- VS Centro -->
-
-<div class="col-md-2 col-12 d-flex flex-column align-items-center justify-content-center mb-4">
-    <button type="button" class="btn btn-primary mb-3" onclick="compararEquipos()">Comparar Equipos</button>
-    <h1 class="fw-bold text-light mb-0">VS</h1>
-    <button type="button" class="btn btn-primary mt-3" id="btnSortear">Sortear</button>
-</div>
-
-<!-- Equipo 2 -->
-<div class="col-md-5 col-12 mb-4">
-    <h4 class="text-primary mb-4 fw-bold">Equipo 2</h4>
-    {% for i in range(5) %}
-    <div class="mb-3 text-start">
-        <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">
-            Jugador {{ i + 6 }}
-        </label>
-        <select id="team2-player-{{ i }}" class="form-select player-select mb-1" data-team="2" data-index="{{ i }}">
-            <option value="" selected>-- Seleccionar jugador --</option>
-            {% for invocador in invocadores %}
-            <option value="{{ invocador.summoner_name }}">
-                {{ invocador.summoner_name }} ({{ invocador.tagline }})
-            </option>
+            </div>
             {% endfor %}
+        </div>
+
+        <!-- VS Centro -->
+
+        <div class="col-md-2 col-12 d-flex flex-column align-items-center justify-content-center mb-4">
+            <button type="button" class="btn btn-primary mb-3" id="comparar-btn">Comparar Equipos</button>
+            <h1 class="fw-bold text-light mb-0">VS</h1>
+            <button type="button" class="btn btn-primary mt-3" id="btnSortear">Sortear</button>
+        </div>
+
+        <!-- Equipo 2 -->
+        <div class="col-md-5 col-12 mb-4">
+            <h4 class="text-primary mb-4 fw-bold">Equipo 2</h4>
+            {% for i in range(5) %}
+            <div class="mb-3 text-start">
+                <label for="team2-player-{{ i }}" class="form-label text-light fw-semibold">
+                    Jugador {{ i + 6 }}
+                </label>
+                <select id="team2-player-{{ i }}" class="form-select player-select mb-1" data-team="2" data-index="{{ i }}">
+                    <option value="" selected>-- Seleccionar jugador --</option>
+                    {% for invocador in invocadores %}
+                    <option value="{{ invocador.summoner_name }}#{{ invocador.tagline }}">
+                        {{ invocador.summoner_name }} ({{ invocador.tagline }})
+                    </option>
+                    {% endfor %}
+                </select>
+        <select id="team2-role-{{ i }}" class="form-select form-select-sm role-select" data-team="2" data-index="{{ i }}">
+
+            <option value="">-- Rol --</option>
+            <option value="TOP">Top</option>
+            <option value="JUNGLE">Jungla</option>
+            <option value="MID">Mid</option>
+            <option value="ADC">ADC</option>
+            <option value="SUPPORT">Support</option>
         </select>
-<select id="team2-role-{{ i }}" class="form-select form-select-sm role-select" data-team="2" data-index="{{ i }}">
 
-    <option value="">-- Rol --</option>
-    <option value="TOP">Top</option>
-    <option value="JUNGLE">Jungla</option>
-    <option value="MID">Mid</option>
-    <option value="ADC">ADC</option>
-    <option value="SUPPORT">Support</option>
-</select>
-
-    </div>
-    {% endfor %}
-</div>
-
+            </div>
+            {% endfor %}
+        </div>
+    </form>
 </div>
 </div>
 
-<!-- Gráfica de probabilidades -->
-<div class="container mt-4 text-center">
-<h5 class="text-light">Probabilidad de victoria por equipo:</h5>
-{% if equipo1_prob > equipo2_prob %}
-<h6 style="color: red;">Equipo 1 (Rojo) es más probable que gane</h6>
-{% elif equipo2_prob > equipo1_prob %}
-<h6 style="color: blue;">Equipo 2 (Azul) es más probable que gane</h6>
-{% else %}
-<h6>Empate</h6>
-{% endif %}
-<canvas id="victoryChart" style="max-width: 270px; margin: auto;"></canvas>
+<!-- Contenedor que se mostrará dinámicamente al recibir datos -->
+<div class="container mt-5 text-center" id="resultado-grafico" style="display: none;">
+    <h5 class="text-light">Probabilidad de victoria por equipo:</h5>
+    <h6 id="mensaje-equipo" class="fw-bold"></h6>
+    <canvas id="victoryChart" style="max-width: 270px; margin: auto;"></canvas>
 </div>
 
-<!-- BLOCK API -->
-{% block API %}
-{% endblock %}
 
 <!-- Chart.js CDN -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -161,106 +153,7 @@ document.querySelectorAll('.player-select, .role-select').forEach(select => {
 actualizarOpciones();
 
 
-// Función para comparar equipos y llamar al backend
-function compararEquipos() {
-    const team1 = [];
-    const team2 = [];
 
-    for (let i = 0; i < 5; i++) {
-        const t1 = document.getElementById(`team1-player-${i}`).value;
-        const t2 = document.getElementById(`team2-player-${i}`).value;
-        if (t1) team1.push(t1);
-        if (t2) team2.push(t2);
-    }
-
-    if (team1.length < 5 || team2.length < 5) {
-        alert("Por favor, selecciona 5 jugadores en ambos equipos");
-        return;
-    }
-
-    // Mostrar mensaje de carga
-    const mensaje = document.querySelector('.container.mt-4.text-center h6');
-    if (mensaje) {
-        mensaje.textContent = "Cargando resultados...";
-        mensaje.style.color = "white";
-    }
-
-    fetch('/comparar', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ team1, team2 })
-    })
-    .then(res => res.json())
-    .then(data => {
-        if (data.error) {
-            // Si viene lista de jugadores que fallaron, la mostramos
-            if (data.jugadores && data.jugadores.length > 0) {
-                alert(`${data.error}\n- ${data.jugadores.join('\n- ')}`);
-            } else {
-                alert(data.error);
-            }
-            return;
-        }
-        actualizarGrafica(data.equipo1_prob, data.equipo2_prob);
-    })
-    .catch(err => {
-        alert("Error al obtener probabilidades. Verifica conexión o nombres de invocadores.");
-        console.error(err);
-    });
-}
-
-
-// Gráfica
-let victoryChart;
-
-function actualizarGrafica(prob1, prob2) {
-    const ctx = document.getElementById('victoryChart').getContext('2d');
-
-    if (victoryChart) victoryChart.destroy();
-
-    victoryChart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: ['Equipo 1', 'Equipo 2'],
-            datasets: [{
-                label: 'Probabilidad de Victoria',
-                data: [prob1, prob2],
-                backgroundColor: [
-                    'rgba(255, 99, 132)', // rojo
-                    'rgba(54, 162, 235)'  // azul
-                ],
-                borderColor: 'rgba(0,0,0,0.2)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: { position: 'bottom' },
-                tooltip: {
-                    callbacks: {
-                        label: (ctx) => `${ctx.label}: ${ctx.parsed}%`
-                    }
-                }
-            }
-        }
-    });
-
-    // Actualizar mensaje
-    const mensaje = document.querySelector('.container.mt-4.text-center h6');
-    if (mensaje) {
-        if (prob1 > prob2) {
-            mensaje.style.color = 'red';
-            mensaje.textContent = 'Equipo 1 (Rojo) es más probable que gane';
-        } else if (prob2 > prob1) {
-            mensaje.style.color = 'blue';
-            mensaje.textContent = 'Equipo 2 (Azul) es más probable que gane';
-        } else {
-            mensaje.style.color = 'white';
-            mensaje.textContent = 'Empate';
-        }
-    }
-}
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -319,6 +212,104 @@ console.warn("No se encontró el botón btnSortear");
 }
 
 });
+
+document.getElementById('comparar-btn').addEventListener('click', async function () {
+    const team1 = [];
+    const team2 = [];
+    const team1_roles = [];
+    const team2_roles = [];
+
+    for (let i = 0; i < 5; i++) {
+        const p1 = document.getElementById(`team1-player-${i}`).value;
+        const p2 = document.getElementById(`team2-player-${i}`).value;
+        const r1 = document.getElementById(`team1-role-${i}`).value;
+        const r2 = document.getElementById(`team2-role-${i}`).value;
+
+        if (!p1 || !p2) {
+            alert("Selecciona todos los jugadores.");
+            return;
+        }
+        if (!r1 || !r2) {
+            alert("Selecciona todos los roles.");
+            return;
+        }
+
+        team1.push(p1);
+        team2.push(p2);
+        team1_roles.push(r1);
+        team2_roles.push(r2);
+    }
+
+    try {
+        const response = await fetch("/calcular_kda", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ team1, team2, team1_roles, team2_roles })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Mostrar gráfico con las probabilidades recibidas
+            mostrarResultado(data.equipo1_prob, data.equipo2_prob);
+        } else if (data.error && data.jugadores) {
+            alert(`${data.error}\n\nFaltan KDA para:\n- ${data.jugadores.join("\n- ")}`);
+        } else {
+            alert(data.error || "Error desconocido.");
+        }
+    } catch (error) {
+        alert("Ocurrió un error al procesar la solicitud.");
+        console.error(error);
+    }
+});
+
+function mostrarResultado(prob1, prob2) {
+    const contenedor = document.getElementById("resultado-grafico");
+    const mensaje = document.getElementById("mensaje-equipo");
+
+    let texto = "Empate";
+    let color = "white";
+
+    if (prob1 > prob2) {
+        texto = "Equipo 1 (Rojo) es más probable que gane";
+        color = "red";
+    } else if (prob2 > prob1) {
+        texto = "Equipo 2 (Azul) es más probable que gane";
+        color = "blue";
+    }
+
+    mensaje.textContent = texto;
+    mensaje.style.color = color;
+
+    contenedor.style.display = "block";
+
+    const ctx = document.getElementById("victoryChart").getContext("2d");
+
+    // Destruir gráfico anterior si existe
+    if (window.victoryChartInstance) {
+        window.victoryChartInstance.destroy();
+    }
+
+    window.victoryChartInstance = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: ['Equipo 1 (Rojo)', 'Equipo 2 (Azul)'],
+            datasets: [{
+                data: [prob1, prob2],
+                backgroundColor: ['#dc3545', '#0d6efd']
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            }
+        }
+    });
+}
+
 
 </script>
 {% endblock %}

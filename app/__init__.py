@@ -7,6 +7,7 @@ load_dotenv()
 
 def create_app():
     app = Flask(__name__)
+    app.secret_key = os.environ.get("FLASK_SECRET_KEY", "super-secret-key")
     app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY", "dev")
     app.config["MONGODB_URI"] = os.environ.get("MONGODB_URI")
     
