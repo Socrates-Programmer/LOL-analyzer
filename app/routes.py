@@ -7,7 +7,11 @@ import threading
 
 bp = Blueprint('match_analyzer', __name__, static_folder='static')
 
+<<<<<<< HEAD
 API_KEY = os.getenv("API_KEY")  # ✅ Usa la clave desde el .env
+=======
+API_KEY = ''  # Pon aquí tu API key de Riot
+>>>>>>> fb02715306b1dd955b3d07cb24fe1b406b3a09f6
 REGION = 'americas'  # Cambia a la región correcta
 
 rank_values = {
