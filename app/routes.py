@@ -66,9 +66,10 @@ def summoner():
 @bp.route('/summoner/list')
 def summoner_list():
     db = current_app.db
-    invocadores = db.invocadores.find()
+    invocadores = list(db.invocadores.find())
+    kda = list(db.kda_stats.find())
 
-    return render_template('pages/all_summoners.html', invocadores=invocadores)
+    return render_template('pages/all_summoners.html', datos=zip(invocadores, kda))
 
 @bp.route('/Analyzer')
 def match_analyzer():

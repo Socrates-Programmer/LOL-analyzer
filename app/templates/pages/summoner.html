@@ -32,10 +32,23 @@
         <label for="password" class="form-label">Contraseña</label>
         <input type="password" class="form-control" id="password" name="password" required>
     </div>
-        <div class="mb-3">
-        <label for="summonerName" class="form-label">Rank</label>
-        <input type="text" class="form-control" id="rank" name="rank" required>
-    </div>
+<div class="mb-3">
+    <label for="rank" class="form-label">Rank</label>
+    <select class="form-select" id="rank" name="rank" required>
+        <option value="" selected disabled>-- Selecciona un rango --</option>
+        <option value="IRON">IRON</option>
+        <option value="BRONZE">BRONZE</option>
+        <option value="SILVER">SILVER</option>
+        <option value="GOLD">GOLD</option>
+        <option value="PLATINUM">PLATINUM</option>
+        <option value="EMERALD">EMERALD</option>
+        <option value="DIAMOND">DIAMOND</option>
+        <option value="MASTER">MASTER</option>
+        <option value="GRANDMASTER">GRANDMASTER</option>
+        <option value="CHALLENGER">CHALLENGER</option>
+    </select>
+</div>
+
     <button type="submit" class="btn btn-primary w-100">Guardar</button>
     </form>
 </div>

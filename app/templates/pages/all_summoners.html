@@ -5,15 +5,17 @@
 {% endblock %}
 
 {% block content %}
+
 <div class="container mt-5">
     <div class="list-group">
-        {% for i in invocadores %}
-        <a href="" class="list-group-item list-group-item-action">
-            {{ i.summoner_name }} - {{ i.tagline }}
+        {% for inv, stats in datos %}
+        <a href="#" class="list-group-item list-group-item-action">
+            {{ inv.summoner_name }}#{{ inv.tagline }} - {{ stats.kills }}/{{ stats.deaths }}/{{ stats.assists }}
         </a>
         {% endfor %}
     </div>
 </div>
+
 
 
 {% endblock %}
