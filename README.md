@@ -14,7 +14,7 @@ Este proyecto analiza partidas de League of Legends para estimar qué equipo tie
 
   ![image](https://github.com/user-attachments/assets/9247e739-9492-4c2f-b0be-4dfb57d3e7ff)
   
-  Razon logica de la formula:
+  ### Razon logica de la formula:
   
     - MID (0.25) y JUNGLE (0.22) suelen tener mayor impa19cto en el mapa: Gankean, rotan, controlan objetivos.
     - ADC (0.21): Aunque dependiente del equipo, es clave en daño tardío.
