@@ -21,7 +21,8 @@ Este proyecto analiza partidas de League of Legends para estimar qué equipo tie
     - TOP (0.17): Más aislado, pero puede ser determinante si gana.
     - SUPPORT (0.15): Apoya más que carrilea; sin embargo, un buen support cambia el juego (pero de forma menos directa en estadísticas individuales como KDA).
 
-    ![image](https://github.com/user-attachments/assets/3e67e940-9ea0-47e9-a1ef-8e887f5de0b6)
+![Figure_1](https://github.com/user-attachments/assets/823594d4-e3fe-4b77-9744-1776721039f0)
+
 
     En la imagen de arriba podemos ver que tanto afecta cada varible de la formula al resultado final.
 
