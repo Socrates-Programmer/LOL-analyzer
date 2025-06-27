@@ -2,7 +2,7 @@
 
 Este proyecto analiza partidas de League of Legends para estimar qué equipo tiene más probabilidades de ganar, basándose en estadísticas como el KDA promedio, liga y rol de cada jugador.
 
-##Match-Analyzer (Module)
+#Match-Analyzer (Module)
 
 * Es un modulo que analiza que tan probable es que gane un equipo en contra de otro en base a:
 
@@ -36,20 +36,20 @@ Este proyecto analiza partidas de League of Legends para estimar qué equipo tie
   
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-###Save-summoner ( Module )
+#Save-summoner ( Module )
 
 - Sirve para guardar los Summoners.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-###All - Summoners ( Module )
+#All - Summoners ( Module )
 
 - Muestra todos los Summoners guardados.
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-###Match-Saver ( Module )
+#Match-Saver ( Module )
 
 - Guarda el KDA promedio del jugador para no tener que consultar a la API cada vez que quieras analizar un equipo ( API de Riot con ciertas limitaciones ).
 
