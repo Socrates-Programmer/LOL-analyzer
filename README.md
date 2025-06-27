@@ -1,6 +1,6 @@
 Match-Analyzer (Module)
 
-* Es un modulo que analizar que tan probable es que gane un equipo en contra de otro en base a:
+* Es un modulo que analiza que tan probable es que gane un equipo en contra de otro en base a:
 
   - Rol (Mid, Gj, Top, Adc y Supp)
   - Liga de la persona
@@ -19,7 +19,7 @@ Match-Analyzer (Module)
 
     ![image](https://github.com/user-attachments/assets/3e67e940-9ea0-47e9-a1ef-8e887f5de0b6)
 
-    En la imagen de arriba podemos ver que tanto afecta cada varible de la formula al resutado final.
+    En la imagen de arriba podemos ver que tanto afecta cada varible de la formula al resultado final.
 
     | Variable            | Coeficiente | Interpretación clara                                                                                                |
     | ------------------- | ----------- | ------------------------------------------------------------------------------------------------------------------- |
@@ -27,7 +27,7 @@ Match-Analyzer (Module)
     | **A (Asistencias)** | **+2.61**   | Mucho más importante que las kills. El trabajo en equipo (asistencias) **vale más que matar**.                      |
     | **D (Muertes)**     | **-8.59**   | Fuerte penalización. Más muertes reducen significativamente el valor total del equipo.                              |
     | **Peso\_liga**      | **+5.97**   | tiene **menos impacto** , hay más variabilidad realista (de Iron a Challenger).                                     |
-    | **Impacto\_rol**    | **+2.36**   | **El rol tiene un inpacto significativo**                                                                           |
+    | **Impacto\_rol**    | **+2.36**   | **El rol tiene un impacto significativo**                                                                           |
 
   
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
