@@ -2,21 +2,21 @@
 
 Este proyecto analiza partidas de League of Legends para estimar qué equipo tiene más probabilidades de ganar, basándose en estadísticas como el KDA promedio, liga y rol de cada jugador.
 
-##### Match-Analyzer (Module)
+## Match-Analyzer (Module)
 
-* Es un modulo que analiza que tan probable es que gane un equipo en contra de otro en base a:
+### Es un modulo que analiza que tan probable es que gane un equipo en contra de otro en base a:
 
   - Rol (Mid, Gj, Top, Adc y Supp)
   - Liga de la persona
   - KDA promedio
 
-* Formula usada:
+### Formula usada:
 
   ![image](https://github.com/user-attachments/assets/9247e739-9492-4c2f-b0be-4dfb57d3e7ff)
   
   Razon logica de la formula:
   
-    - MID (0.25) y JUNGLE (0.22) suelen tener mayor impacto en el mapa: Gankean, rotan, controlan objetivos.
+    - MID (0.25) y JUNGLE (0.22) suelen tener mayor impa19cto en el mapa: Gankean, rotan, controlan objetivos.
     - ADC (0.21): Aunque dependiente del equipo, es clave en daño tardío.
     - TOP (0.17): Más aislado, pero puede ser determinante si gana.
     - SUPPORT (0.15): Apoya más que carrilea; sin embargo, un buen support cambia el juego (pero de forma menos directa en estadísticas individuales como KDA).
@@ -36,20 +36,20 @@ Este proyecto analiza partidas de League of Legends para estimar qué equipo tie
   
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#Save-summoner ( Module )
+## Save-summoner ( Module )
 
 - Sirve para guardar los Summoners.
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#All - Summoners ( Module )
+## All - Summoners ( Module )
 
 - Muestra todos los Summoners guardados.
 
 
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-#Match-Saver ( Module )
+## Match-Saver ( Module )
 
 - Guarda el KDA promedio del jugador para no tener que consultar a la API cada vez que quieras analizar un equipo ( API de Riot con ciertas limitaciones ).
 
