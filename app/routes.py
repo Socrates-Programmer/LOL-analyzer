@@ -7,7 +7,7 @@ import threading
 
 bp = Blueprint('match_analyzer', __name__, static_folder='static')
 
-API_KEY = os.getenv("API_KEY")  #  Usa la clave desde el .env
+API_KEY = os.getenv("API-KEY")  #  Usa la clave desde el .env
 REGION = 'americas'  # Cambia a la región correcta
 
 rank_values = {
@@ -134,7 +134,7 @@ def obtener_kda_promedio_80porc(game_name, tag_line, api_key):
         return None
 
     # Calcular el 80% de las partidas
-    partidas_a_consultar = max(1, round(total_partidas * 0.80))
+    partidas_a_consultar = max(1, round(total_partidas * 0.01))
     print(f"Calculando KDA promedio en {partidas_a_consultar} partidas (75%)")
 
     partidas_ids_80 = partidas_ids[:partidas_a_consultar]
