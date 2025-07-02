@@ -6,4 +6,3 @@ requests
 pymongo
 pytesseract
 PIL
-pytesseract pillow
