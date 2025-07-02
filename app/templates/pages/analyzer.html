@@ -313,5 +313,21 @@ function mostrarResultado(prob1, prob2) {
         }
     });
 }
+
+{% if jugadores_detectados %}
+document.addEventListener("DOMContentLoaded", function() {
+    const jugadores = {{ jugadores_detectados|tojson }};
+    for (let i = 0; i < Math.min(jugadores.length, 10); i++) {
+        const selectId = i < 5 ? `team1-player-${i}` : `team2-player-${i-5}`;
+        const select = document.getElementById(selectId);
+        if (select) select.value = jugadores[i];
+    }
+    if (typeof actualizarOpciones === "function") {
+        actualizarOpciones();
+    }
+});
+{% endif %}
 </script>
+
+
 {% endblock %}

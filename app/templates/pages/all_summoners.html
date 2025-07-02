@@ -1,21 +1,28 @@
 {% extends "index.html" %}
 
 {% block title %}
-    All - Summoners
+    Todos los Invocadores
 {% endblock %}
 
 {% block content %}
-
 <div class="container mt-5">
-    <div class="list-group">
-        {% for inv, stats in datos %}
-        <a href="#" class="list-group-item list-group-item-action">
-            {{ inv.summoner_name }}#{{ inv.tagline }} - {{ stats.kills }}/{{ stats.deaths }}/{{ stats.assists }}
-        </a>
-        {% endfor %}
+    <div class="card shadow-lg bg-dark text-white border-primary border-2">
+        <div class="card-header text-center text-primary fw-bold fs-4">
+            Lista de Invocadores y KDA
+        </div>
+        <ul class="list-group list-group-flush">
+            {% for inv, stats in datos %}
+            <li class="list-group-item bg-dark text-light d-flex justify-content-between align-items-center border-bottom">
+                <span>
+                    <i class="bi bi-person-circle text-primary"></i>
+                    <strong>{{ inv.summoner_name }}#{{ inv.tagline }}</strong>
+                </span>
+                <span class="badge bg-primary rounded-pill fs-6">
+                    {{ stats.kills }}/{{ stats.deaths }}/{{ stats.assists }}
+                </span>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
 </div>
-
-
-
 {% endblock %}

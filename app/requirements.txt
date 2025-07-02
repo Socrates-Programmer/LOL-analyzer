@@ -4,4 +4,6 @@ python-dotenv
 gunicorn
 requests
 pymongo
-pymongo
+pytesseract
+PIL
+pytesseract pillow

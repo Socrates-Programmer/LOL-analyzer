@@ -5,5 +5,25 @@
 {% endblock %}
 
 {% block content %}
-<h1 class="text-light"> Home </h1>
+<div class="container mt-5">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show shadow" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <div class="card bg-dark text-white shadow-lg p-4 rounded-4 border-primary border-2">
+        <h2 class="mb-4 text-center text-primary">Subir imagen para crear un Match-Analyzer automatico</h2>
+        <form action="{{ url_for('match_analyzer.upload_image') }}" method="POST" enctype="multipart/form-data" class="mb-4">
+            <label class="form-label text-light">Selecciona una imagen</label>
+            <input type="file" name="image" accept="image/*" class="form-control mb-2" required>
+            <button type="submit" class="btn btn-primary w-100 shadow">Procesar imagen</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

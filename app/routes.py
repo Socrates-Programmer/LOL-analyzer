@@ -4,6 +4,18 @@ import requests
 import time
 import uuid
 import threading
+import pytesseract
+from PIL import Image
+import io  # <-- Agrega esta línea
+import re
+
+
+tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+if os.path.exists(tesseract_path):
+    pytesseract.pytesseract.tesseract_cmd = tesseract_path
+else:
+    raise FileNotFoundError(f"No se encontró tesseract en: {tesseract_path}")
+
 
 bp = Blueprint('match_analyzer', __name__, static_folder='static')
 
@@ -83,12 +95,13 @@ def match_analyzer():
 
     equipo1_prob = session.pop('equipo1_prob', None)
     equipo2_prob = session.pop('equipo2_prob', None)
+    jugadores_detectados = session.pop('jugadores_detectados', None)
 
     return render_template('pages/analyzer.html',
                         invocadores=invocadores,
-                        equipo1_prob=session.get('equipo1_prob'),
-                        equipo2_prob=session.get('equipo2_prob'))
-
+                        equipo1_prob=equipo1_prob,
+                        equipo2_prob=equipo2_prob,
+                        jugadores_detectados=jugadores_detectados)
 
 def obtener_kda_promedio_80porc(game_name, tag_line, api_key):
     headers = {"X-Riot-Token": api_key}
@@ -192,8 +205,13 @@ def match_saver():
     kda = None
     seleccionado = None
 
+
     if request.method == 'POST':
         form_type = request.form.get("form_type")
+        password = request.form.get("password")
+        if password != os.getenv("PASS"):
+            flash("Contraseña incorrecta", "danger")
+            return redirect(url_for('match_analyzer.match_saver'))
 
         if form_type == "auto":
             seleccionado = request.form.get('invocador')
@@ -311,3 +329,71 @@ def calcular_kda():
         'equipo1_prob': prob1,
         'equipo2_prob': prob2
     })
+
+@bp.route('/upload-image', methods=['POST'])
+def upload_image():
+    print("Recibida solicitud POST a /upload-image")
+
+    if 'image' not in request.files:
+        flash("No se subió ninguna imagen", "danger")
+        return redirect(url_for('match_analyzer.home'))
+
+    file = request.files['image']
+    if file.filename == '':
+        flash("Nombre de archivo vacío", "danger")
+        return redirect(url_for('match_analyzer.home'))
+
+    try:
+        img_bytes = file.read()
+        img = Image.open(io.BytesIO(img_bytes))
+
+        # Preprocesar imagen
+        img = img.convert('L')
+        max_size = (1024, 1024)
+        img.thumbnail(max_size)
+
+        texto = pytesseract.image_to_string(img)
+        print("Texto detectado por OCR:")
+        print(texto)
+
+        # Detectar patrones nombre#tag en texto OCR
+        jugadores_raw = re.findall(r'([\w]{3,16})\s*#\s*([\w]{2,5})', texto)
+        jugadores_detectados = [f"{name}#{tag}" for name, tag in jugadores_raw]
+        print(f"Jugadores detectados (OCR): {jugadores_detectados}")
+
+        if not jugadores_detectados:
+            flash("No se detectaron jugadores en la imagen.", "warning")
+            return redirect(url_for('match_analyzer.home'))
+
+        # Consultar jugadores guardados en DB Mongo
+        db = current_app.db
+        invocadores = list(db.invocadores.find({}, {"summoner_name": 1, "tagline": 1}))
+
+        jugadores_guardados = set()
+        for inv in invocadores:
+            name = inv.get("summoner_name", "").strip()
+            tag = inv.get("tagline", "").strip()
+            if name and tag:
+                jugadores_guardados.add(f"{name}#{tag}")
+
+        print(f"Jugadores guardados en DB: {jugadores_guardados}")
+
+        # Filtrar los detectados para que solo queden los que están en DB
+        jugadores_encontrados = [j for j in jugadores_detectados if j in jugadores_guardados]
+        print(f"Jugadores detectados y confirmados en DB: {jugadores_encontrados}")
+
+        if not jugadores_encontrados:
+            flash("No se encontraron coincidencias de jugadores en la base de datos.", "warning")
+            return redirect(url_for('match_analyzer.home'))
+
+        # Guardar en sesión para usar después
+        session['jugadores_detectados'] = jugadores_encontrados
+        return redirect(url_for('match_analyzer.match_analyzer'))
+
+    except pytesseract.TesseractNotFoundError:
+        flash("Tesseract OCR no está instalado o no se encontró su ejecutable.", "danger")
+        return redirect(url_for('match_analyzer.home'))
+
+    except Exception as e:
+        flash(f"Ocurrió un error al procesar la imagen: {str(e)}", "danger")
+        return redirect(url_for('match_analyzer.home'))

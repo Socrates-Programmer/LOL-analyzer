@@ -1,60 +1,77 @@
 {% extends "index.html" %}
 
 {% block title %}
-    All - Summoners
+    Guardar KDA
 {% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h3 class="text-light mb-4">Guardar KDA automático</h3>
-    <form method="post" class="row g-3 align-items-center mb-5">
-        <input type="hidden" name="form_type" value="auto">
-        <div class="col-md-6">
-            <label class="text-light" for="invocador_auto">Invocador</label>
-            <select id="invocador_auto" name="invocador" class="form-select" required>
-                <option value="" selected disabled>-- Selecciona un invocador --</option>
-                {% for i in invocadores %}
-                <option value="{{ i.summoner_name }}#{{ i.tagline }}">{{ i.summoner_name }}#{{ i.tagline }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-3 mt-4">
-            <button type="submit" class="btn btn-primary w-100">Obtener y Guardar</button>
-        </div>
-    </form>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show shadow mb-4" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    <div class="card bg-dark text-white shadow-lg p-4 rounded-4 border-primary border-2 mb-4">
+        <h3 class="text-primary mb-4 text-center">Guardar KDA automático</h3>
+        <form method="post" class="row g-3 align-items-center mb-3">
+            <input type="hidden" name="form_type" value="auto">
+            <div class="col-md-6">
+                <label class="text-light" for="invocador_auto">Invocador</label>
+                <select id="invocador_auto" name="invocador" class="form-select" required>
+                    <option value="" selected disabled>-- Selecciona un invocador --</option>
+                    {% for i in invocadores %}
+                    <option value="{{ i.summoner_name }}#{{ i.tagline }}">{{ i.summoner_name }}#{{ i.tagline }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label class="text-light" for="password_auto">Contraseña</label>
+                <input type="password" class="form-control" id="password_auto" name="password" required>
+            </div>
+            <div class="col-md-2 mt-4">
+                <button type="submit" class="btn btn-primary w-100 shadow">Obtener y Guardar</button>
+            </div>
+        </form>
+    </div>
 
-    <hr class="text-light">
-
-    <h3 class="text-light mb-4">Guardar KDA manual</h3>
-    <form method="post" class="row g-3 align-items-center mb-5">
-        <input type="hidden" name="form_type" value="manual">
-        <div class="col-md-3">
-            <label class="text-light" for="invocador_manual">Invocador</label>
-            <select id="invocador_manual" name="invocador" class="form-select" required>
-                <option value="" selected disabled>-- Selecciona un invocador --</option>
-                {% for i in invocadores %}
-                <option value="{{ i.summoner_name }}#{{ i.tagline }}">{{ i.summoner_name }}#{{ i.tagline }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        <div class="col-md-2">
-            <label class="text-light" for="kills">Kills</label>
-            <input type="number" name="kills" step="0.1" min="0" class="form-control" required>
-        </div>
-        <div class="col-md-2">
-            <label class="text-light" for="deaths">Deaths</label>
-            <input type="number" name="deaths" step="0.1" min="0" class="form-control" required>
-        </div>
-        <div class="col-md-2">
-            <label class="text-light" for="assists">Assists</label>
-            <input type="number" name="assists" step="0.1" min="0" class="form-control" required>
-        </div>
-        <div class="col-md-2 mt-4">
-            <button type="submit" class="btn btn-success mt-2 w-100">Guardar</button>
-        </div>
-    </form>
-
-    <hr class="text-light">
-
+    <div class="card bg-dark text-white shadow-lg p-4 rounded-4 border-success border-2">
+        <h3 class="text-success mb-4 text-center">Guardar KDA manual</h3>
+        <form method="post" class="row g-3 align-items-center">
+            <input type="hidden" name="form_type" value="manual">
+            <div class="col-md-3">
+                <label class="text-light" for="invocador_manual">Invocador</label>
+                <select id="invocador_manual" name="invocador" class="form-select" required>
+                    <option value="" selected disabled>-- Selecciona un invocador --</option>
+                    {% for i in invocadores %}
+                    <option value="{{ i.summoner_name }}#{{ i.tagline }}">{{ i.summoner_name }}#{{ i.tagline }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label class="text-light" for="kills">Kills</label>
+                <input type="number" name="kills" step="0.1" min="0" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <label class="text-light" for="deaths">Deaths</label>
+                <input type="number" name="deaths" step="0.1" min="0" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <label class="text-light" for="assists">Assists</label>
+                <input type="number" name="assists" step="0.1" min="0" class="form-control" required>
+            </div>
+            <div class="col-md-3">
+                <label class="text-light" for="password_manual">Contraseña</label>
+                <input type="password" class="form-control" id="password_manual" name="password" required>
+            </div>
+            <div class="col-12 mt-2">
+                <button type="submit" class="btn btn-success mt-2 w-100 shadow">Guardar</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}

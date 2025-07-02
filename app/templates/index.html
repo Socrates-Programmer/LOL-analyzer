@@ -1,68 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../static/css/style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .navbar {
+            background: rgba(30, 34, 45, 0.92) !important;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+            border-bottom: 2px solid #0d6efd;
+        }
+        .navbar-brand img {
+            filter: drop-shadow(0 0 8px #0d6efd);
+        }
+        .nav-link.active, .nav-link:hover {
+            color: #0d6efd !important;
+            font-weight: bold;
+            text-shadow: 0 0 6px #0d6efd44;
+        }
+        .content {
+            margin-top: 40px;
+        }
+        /* Fondo de los bloques principales para mejor legibilidad */
+        .card, .bg-dark, .shadow-lg, .rounded-4 {
+            background: rgba(20, 20, 30, 0.85) !important;
+            backdrop-filter: blur(2px);
+        }
+        body {
+            background-image: none !important;
+            background: #181a1b !important;
+        }
+        body::before {
+            display: none !important;
+        }
+    </style>
     <title>LOL-Analyzer - {% block title %}{% endblock %}</title>
 </head>
 
 <body>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-<div class="container">
 
-<a class="navbar-brand" href="/">
-    <img id="MDB-logo"
-        src="../static/images/drake-light.png" alt="Drake Logo"
-        draggable="false" height="50px" />
-</a>
-
-<!-- Botón hamburguesa funcional -->
-<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-</button>
-
-<div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ms-auto align-items-center">
-    <li class="nav-item">
-        <a class="nav-link mx-2 text-light" href="/Analyzer">
-        <i class="fas fa-plus-circle pe-2"></i>Match-Analyzer
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link mx-2 text-light" href="/summoner">
-        <i class="fas fa-bell pe-2"></i>Save-summoner
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link mx-2 text-light" href="/summoner/list">
-        <i class="fas fa-bell pe-2"></i>All - Summoners
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link mx-2 text-light" href="/match-saver">
-        <i class="fas fa-bell pe-2"></i>Match-Saver
-        </a>
-    </li>
-    </ul>
-</div>
-
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+      <img src="../static/images/drake-light.png" alt="Drake Logo" height="48" />
+      <span class="fw-bold fs-4 text-primary">LOL-Analyzer</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2">
+        <li class="nav-item">
+          <a class="nav-link mx-2 text-light" href="/Analyzer">
+            <i class="fa-solid fa-chart-line pe-2"></i>Match-Analyzer
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2 text-light" href="/summoner">
+            <i class="fa-solid fa-user-plus pe-2"></i>Save-summoner
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2 text-light" href="/summoner/list">
+            <i class="fa-solid fa-users pe-2"></i>All - Summoners
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link mx-2 text-light" href="/match-saver">
+            <i class="fa-solid fa-floppy-disk pe-2"></i>Match-Saver
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
 
     <!-- Navbar -->
 
+
     <!-- Content -->
     <div class="content">
-    <div class="text-center">
-    {% block content %}
-
-    {% endblock %}
-
-    </div>
+      <div class="container">
+        {% block content %}
+        {% endblock %}
+      </div>
     </div>
     <!-- Content -->
 
@@ -71,5 +96,5 @@
 
 {% endblock %}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </html>
