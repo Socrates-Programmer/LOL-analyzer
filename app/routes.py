@@ -10,7 +10,14 @@ import io  # <-- Agrega esta línea
 import re
 
 
-tesseract_path = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
+
+# Configuración multiplataforma para Tesseract
+import platform
+if platform.system() == "Windows":
+    tesseract_path = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+else:
+    tesseract_path = "/usr/bin/tesseract"
+
 if os.path.exists(tesseract_path):
     pytesseract.pytesseract.tesseract_cmd = tesseract_path
 else:
