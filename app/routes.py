@@ -11,17 +11,17 @@ import re
 
 
 
-# Configuración multiplataforma para Tesseract
+
 import platform
+
 if platform.system() == "Windows":
     tesseract_path = r"C:\\Program Files\\Tesseract-OCR\\tesseract.exe"
+    if os.path.exists(tesseract_path):
+        pytesseract.pytesseract.tesseract_cmd = tesseract_path
+    else:
+        raise FileNotFoundError(f"No se encontró tesseract en: {tesseract_path}")
 else:
-    tesseract_path = "/usr/bin/tesseract"
-
-if os.path.exists(tesseract_path):
-    pytesseract.pytesseract.tesseract_cmd = tesseract_path
-else:
-    raise FileNotFoundError(f"No se encontró tesseract en: {tesseract_path}")
+    pytesseract.pytesseract.tesseract_cmd = "tesseract"  # Usará el del sistema (Render)
 
 
 bp = Blueprint('match_analyzer', __name__, static_folder='static')
